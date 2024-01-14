@@ -4,3 +4,6 @@ Console.WriteLine("Hello, World!");
 
 var sender = new Publisher.Sender();
 sender.Relaible();
+
+var subscriber =new Consumer.Subscriber();
+subscriber.Acknowlegment();
