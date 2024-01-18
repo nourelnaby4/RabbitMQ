@@ -23,8 +23,11 @@ namespace Consumer
 
                     Console.WriteLine($"{args.DeliveryTag}: {message}");
 
+                    Console.WriteLine("Press Enter to exit");
+                    Console.ReadLine();
+
                 };
-                channel.BasicConsume(queue: "q1",
+                channel.BasicConsume(queue: "q4",
                                  consumer:consumer,
                                  autoAck:false, // the most importante section to activate confirmation 
                                  consumerTag:"MSGTag"); 

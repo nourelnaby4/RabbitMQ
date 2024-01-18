@@ -26,6 +26,9 @@ namespace Publisher
                 channel.BasicReturn += (sender, ea) =>
                 {
                     Console.WriteLine($"{ea.ReplyText}");
+
+                    Console.WriteLine("Press Enter to exit");
+                    Console.ReadLine();
                 };
 
                 channel.BasicPublish(exchange: "amq.direct",
