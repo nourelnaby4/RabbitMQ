@@ -41,5 +41,47 @@ namespace Publisher
             }
         }
 
+        public void Persistence()
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+
+                var message = "hello ahmed iam try to get this message to confirm ";
+                var body = Encoding.UTF8.GetBytes(message);
+
+                channel.BasicAcks += (obj, args) =>
+                {
+                    channel.BasicAck(args.DeliveryTag, false);
+
+                    Console.WriteLine("Press Enter to exit");
+                    Console.ReadLine();
+                };
+
+
+                //second confirm if replay that mean message is not send to queue
+                channel.BasicReturn += (sender, ea) =>
+                {
+                    Console.WriteLine($"{ea.ReplyText}");
+
+                    Console.WriteLine("Press Enter to exit");
+                    Console.ReadLine();
+                };
+
+                IBasicProperties basicProperties = channel.CreateBasicProperties();
+                basicProperties.Persistent = true;
+
+
+                channel.BasicPublish(exchange: "amq.direct",
+                                   routingKey: "",
+                                   basicProperties: null,
+                                   body: body,
+                                   mandatory: true); // the most importante section to activate confirmation 
+
+
+            }
+        }
+
     }
 }
