@@ -1,19 +1,21 @@
 ﻿using RabbitMQ.Client;
 using System.Text;
+using System.Threading.Channels;
+using System.Xml.Linq;
 
 namespace Publisher
 {
-    public class Sender
+    public class Publishers
     {
         // reliable to confirm that message send from publisher to exchange to queue 
         public void Relaible()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
-            using(var connection =factory.CreateConnection())
-            using(var channel=connection.CreateModel())
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
                 var message = "hello ahmed iam try to get this message to confirm ";
-                var body= Encoding.UTF8.GetBytes(message);
+                var body = Encoding.UTF8.GetBytes(message);
 
                 //first step
                 channel.BasicAcks += (sender, ea) =>
@@ -35,9 +37,9 @@ namespace Publisher
                                      routingKey: "",
                                      basicProperties: null,
                                      body: body,
-                                     mandatory:true); // the most importante section to activate confirmation 
+                                     mandatory: true); // the most importante section to activate confirmation 
 
-               
+
             }
         }
 
@@ -69,6 +71,7 @@ namespace Publisher
                     Console.ReadLine();
                 };
 
+                //save message in memory and hardDisk
                 IBasicProperties basicProperties = channel.CreateBasicProperties();
                 basicProperties.Persistent = true;
 
@@ -83,5 +86,29 @@ namespace Publisher
             }
         }
 
+        public  void PublishMessageToQuorum()
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+
+                var message = "hello ahmed iam try to get this message to confirm ";
+                var body = Encoding.UTF8.GetBytes(message);
+
+
+
+                channel.BasicPublish(exchange: "amq.direct",
+                               routingKey: "",
+                               basicProperties: null,
+                               body: body,
+                               mandatory: true); // the most importante section to activate confirmation 
+
+                Console.WriteLine("Press Enter to exit");
+                Console.ReadLine();
+            }
+
+            
+        }
     }
 }

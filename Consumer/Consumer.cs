@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Consumer
 {
-    public class Subscriber
+    public class Consumer
     {
         public void Acknowlegment()
         {
