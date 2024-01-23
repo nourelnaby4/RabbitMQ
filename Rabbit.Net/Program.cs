@@ -19,20 +19,23 @@ using Publisher;
 
 
 #region PoisonMessage
-var quorumQ = new QuorumQueue();
-quorumQ.DeclareQuorum();
+//var quorumQ = new QuorumQueue();
+//quorumQ.DeclareQuorum();
 
-var exchange = new FanoutExchange();
-exchange.DeclareFanout();
+//var exchange = new FanoutExchange();
+//exchange.DeclareFanout();
 
-var bind = new Binde();
-bind.Bind_Fanout_To_Quorum();
+//var bind = new Binde();
+//bind.Bind_Fanout_To_Quorum();
 
-var cunsumer = new ConsumerPoisonMessage();
-cunsumer.TestPoisonMessage();
+//var cunsumer = new ConsumerPoisonMessage();
+//cunsumer.TestPoisonMessage();
 
-var publisher = new Publishers();
-publisher.PublishMessageToQuorum();
+//var publisher = new Publishers();
+//publisher.PublishMessageToQuorum();
+
+
+await Policy.Main();
 
 
 #endregion
